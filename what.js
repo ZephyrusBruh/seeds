@@ -40,12 +40,13 @@ function sfc32(a, b, c, d) {
   }
 }
 
-const seedgen = () => (8);
+const seedgen = () => (10);
 const getRand = sfc32(seedgen(), seedgen(), seedgen(), seedgen());
 for(let i=0; i<10; i++) console.log(Math.floor(getRand() * 10) % 2);
 
 function splitmix32(a) {
- return function() {
+ return function() { //yippee
+
    a |= 0;
    a = a + 0x9e3779b9 | 0;
    let t = a ^ a >>> 16;
