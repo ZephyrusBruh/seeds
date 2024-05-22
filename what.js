@@ -16,34 +16,13 @@ function cyrb128(str) {
     return [h1>>>0, h2>>>0, h3>>>0, h4>>>0];
 }
 
-var seed = cyrb128("apples"); 
-// Four 32-bit component hashes provide the seed for sfc32.
-var rand = sfc32(seed[0], seed[1], seed[2], seed[3]);
+var seed = cyrb128("butt"); 
 
 // Or... only one 32-bit component hash is needed for splitmix32.
 var rand = splitmix32(seed[0]);
 
-
-
-function sfc32(a, b, c, d) {
-  return function() {
-    a |= 0; b |= 0; c |= 0; d |= 0;
-    let t = (a + b | 0) + d | 0;
-    d = d + 1 | 0;
-    a = b ^ b >>> 9;
-    b = c + (c << 3) | 0;
-    c = (c << 21 | c >>> 11);
-    c = c + t | 0;
-    return (t >>> 0) / 4294967296;
-  }
-}
-
-const seedgen = () => (8);
-const getRand = sfc32(seedgen(), seedgen(), seedgen(), seedgen());
-for(let i=0; i<10; i++) console.log(Math.floor(getRand() * 10) % 2);
-
 function splitmix32(a) {
- return function() { //yippee
+   return function() { //yippee
    a |= 0;
    a = a + 0x9e3779b9 | 0;
    let t = a ^ a >>> 16;
@@ -56,3 +35,22 @@ function splitmix32(a) {
 var yes = 8; //this gets randomed
 const prng = splitmix32((yes*2**32)>>>0)
 for(let i=0; i<10; i++) console.log(prng());
+
+
+function setSeed(){
+  let textStuff = document.getElementById("seedStart");
+  let currentText = textStuff.value;
+  var seed = cyrb128(currentText); 
+  // Or... only one 32-bit component hash is needed for splitmix32.
+  rand = splitmix32(seed[0]);
+}
+
+
+function updateText(){
+  
+    let varNameYes = document.getElementById("testNumbersTeeHee");
+    for(let i=0; i<10; i++) {
+      varNameYes.innerHTML += "<br>"+ rand() + "<br>";
+    };
+    
+}
