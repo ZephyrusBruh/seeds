@@ -23,9 +23,7 @@ var rand = sfc32(seed[0], seed[1], seed[2], seed[3]);
 // Or... only one 32-bit component hash is needed for splitmix32.
 var rand = splitmix32(seed[0]);
 
-// You can now generate repeatable sequences of random numbers:
-rand(); // 0.8865117691457272
-rand(); // 0.24518639338202775
+
 
 function sfc32(a, b, c, d) {
   return function() {
@@ -40,13 +38,12 @@ function sfc32(a, b, c, d) {
   }
 }
 
-const seedgen = () => (10);
+const seedgen = () => (8);
 const getRand = sfc32(seedgen(), seedgen(), seedgen(), seedgen());
 for(let i=0; i<10; i++) console.log(Math.floor(getRand() * 10) % 2);
 
 function splitmix32(a) {
  return function() { //yippee
-
    a |= 0;
    a = a + 0x9e3779b9 | 0;
    let t = a ^ a >>> 16;
@@ -56,6 +53,6 @@ function splitmix32(a) {
    return ((t = t ^ t >>> 15) >>> 0) / 4294967296;
   }
 }
-
-const prng = splitmix32((Math.random()*2**32)>>>0)
+var yes = 8; //this gets randomed
+const prng = splitmix32((yes*2**32)>>>0)
 for(let i=0; i<10; i++) console.log(prng());
